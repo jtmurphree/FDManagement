@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>2be723cf-7489-4c4b-b47e-6ca18337a7a2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,25 @@
     <Folder Include="Models\Domain\" />
     <Folder Include="Models\DTO\" />
     <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Database.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Database.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Database.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
