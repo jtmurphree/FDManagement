@@ -1,3 +1,8 @@
+using FDManagement.Repositories.Interface;
+using FDManagement.Repositories.Implementation;
+using Microsoft.EntityFrameworkCore;
+using FDManagement;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ApplicaionDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FdManConnectionString"));
+});
+
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-var app = builder.Build();
+
 
 //allowing only cors from the ui server
 builder.Services.AddCors(options =>
@@ -22,6 +32,10 @@ builder.Services.AddCors(options =>
 
                       });
 });
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
