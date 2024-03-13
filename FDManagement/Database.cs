@@ -42,6 +42,7 @@ namespace FDManagement
         DbSet<Global_UserRole> Global_UserRoles { get; set; } // UserRoles
         DbSet<Inventory_Category> Inventory_Categories { get; set; } // Categories
         DbSet<Inventory_Item> Inventory_Items { get; set; } // Items
+        DbSet<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus
         DbSet<Vehicle_ApparatusType> Vehicle_ApparatusTypes { get; set; } // ApparatusType
         DbSet<Vehicle_DriveType> Vehicle_DriveTypes { get; set; } // DriveType
         DbSet<Vehicle_FuelType> Vehicle_FuelTypes { get; set; } // FuelType
@@ -115,6 +116,7 @@ namespace FDManagement
         public DbSet<Global_UserRole> Global_UserRoles { get; set; } // UserRoles
         public DbSet<Inventory_Category> Inventory_Categories { get; set; } // Categories
         public DbSet<Inventory_Item> Inventory_Items { get; set; } // Items
+        public DbSet<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus
         public DbSet<Vehicle_ApparatusType> Vehicle_ApparatusTypes { get; set; } // ApparatusType
         public DbSet<Vehicle_DriveType> Vehicle_DriveTypes { get; set; } // DriveType
         public DbSet<Vehicle_FuelType> Vehicle_FuelTypes { get; set; } // FuelType
@@ -145,6 +147,7 @@ namespace FDManagement
             modelBuilder.ApplyConfiguration(new Global_UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new Inventory_CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new Inventory_ItemConfiguration());
+            modelBuilder.ApplyConfiguration(new Vehicle_ApparatusConfiguration());
             modelBuilder.ApplyConfiguration(new Vehicle_ApparatusTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Vehicle_DriveTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Vehicle_FuelTypeConfiguration());
@@ -179,6 +182,7 @@ namespace FDManagement
         public DbSet<Global_UserRole> Global_UserRoles { get; set; } // UserRoles
         public DbSet<Inventory_Category> Inventory_Categories { get; set; } // Categories
         public DbSet<Inventory_Item> Inventory_Items { get; set; } // Items
+        public DbSet<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus
         public DbSet<Vehicle_ApparatusType> Vehicle_ApparatusTypes { get; set; } // ApparatusType
         public DbSet<Vehicle_DriveType> Vehicle_DriveTypes { get; set; } // DriveType
         public DbSet<Vehicle_FuelType> Vehicle_FuelTypes { get; set; } // FuelType
@@ -192,6 +196,7 @@ namespace FDManagement
             Global_UserRoles = new FakeDbSet<Global_UserRole>("Id");
             Inventory_Categories = new FakeDbSet<Inventory_Category>("Id");
             Inventory_Items = new FakeDbSet<Inventory_Item>("Id");
+            Vehicle_Apparatus = new FakeDbSet<Vehicle_Apparatus>("Id");
             Vehicle_ApparatusTypes = new FakeDbSet<Vehicle_ApparatusType>("Id");
             Vehicle_DriveTypes = new FakeDbSet<Vehicle_DriveType>("Id");
             Vehicle_FuelTypes = new FakeDbSet<Vehicle_FuelType>("Id");
@@ -981,12 +986,56 @@ namespace FDManagement
         public Inventory_Category Inventory_Category { get; set; } // FK_Category
     }
 
+    // Apparatus
+    public class Vehicle_Apparatus
+    {
+        public int Id { get; set; } // ID (Primary key)
+        public string UnitNum { get; set; } // UnitNum (length: 50)
+        public string Make { get; set; } // Make
+        public string Model { get; set; } // Model (length: 256)
+        public int? Year { get; set; } // Year
+        public long? Mileage { get; set; } // Mileage
+        public DateTime? MileageDate { get; set; } // MileageDate
+        public int? ApparatusType { get; set; } // ApparatusType
+        public int? FuelType { get; set; } // FuelType
+        public int? DriveType { get; set; } // DriveType
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent Vehicle_ApparatusType pointed by [Apparatus].([ApparatusType]) (FK_Type)
+        /// </summary>
+        public Vehicle_ApparatusType Vehicle_ApparatusType { get; set; } // FK_Type
+
+        /// <summary>
+        /// Parent Vehicle_DriveType pointed by [Apparatus].([DriveType]) (FK_DriveType)
+        /// </summary>
+        public Vehicle_DriveType Vehicle_DriveType { get; set; } // FK_DriveType
+
+        /// <summary>
+        /// Parent Vehicle_FuelType pointed by [Apparatus].([FuelType]) (FK_FuelType)
+        /// </summary>
+        public Vehicle_FuelType Vehicle_FuelType { get; set; } // FK_FuelType
+    }
+
     // ApparatusType
     public class Vehicle_ApparatusType
     {
         public int Id { get; set; } // ID (Primary key)
         public string Name { get; set; } // Name (length: 256)
         public string Description { get; set; } // Description (length: 256)
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Vehicle_Apparatus where [Apparatus].[ApparatusType] point to this entity (FK_Type)
+        /// </summary>
+        public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_Type
+
+        public Vehicle_ApparatusType()
+        {
+            Vehicle_Apparatus = new List<Vehicle_Apparatus>();
+        }
     }
 
     // DriveType
@@ -995,6 +1044,18 @@ namespace FDManagement
         public int Id { get; set; } // ID (Primary key)
         public string Name { get; set; } // Name (length: 256)
         public string Description { get; set; } // Description
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Vehicle_Apparatus where [Apparatus].[DriveType] point to this entity (FK_DriveType)
+        /// </summary>
+        public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_DriveType
+
+        public Vehicle_DriveType()
+        {
+            Vehicle_Apparatus = new List<Vehicle_Apparatus>();
+        }
     }
 
     // FuelType
@@ -1003,6 +1064,18 @@ namespace FDManagement
         public int Id { get; set; } // ID (Primary key)
         public string Name { get; set; } // Name (length: 256)
         public string Description { get; set; } // Description
+
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Vehicle_Apparatus where [Apparatus].[FuelType] point to this entity (FK_FuelType)
+        /// </summary>
+        public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_FuelType
+
+        public Vehicle_FuelType()
+        {
+            Vehicle_Apparatus = new List<Vehicle_Apparatus>();
+        }
     }
 
 
@@ -1101,6 +1174,32 @@ namespace FDManagement
 
             // Foreign keys
             builder.HasOne(a => a.Inventory_Category).WithMany(b => b.Inventory_Items).HasForeignKey(c => c.Category).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Category");
+        }
+    }
+
+    // Apparatus
+    public class Vehicle_ApparatusConfiguration : IEntityTypeConfiguration<Vehicle_Apparatus>
+    {
+        public void Configure(EntityTypeBuilder<Vehicle_Apparatus> builder)
+        {
+            builder.ToTable("Apparatus", "Vehicle");
+            builder.HasKey(x => x.Id).HasName("PK__Apparatu__3214EC27C0C5F68F").IsClustered();
+
+            builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
+            builder.Property(x => x.UnitNum).HasColumnName(@"UnitNum").HasColumnType("varchar(50)").IsRequired(false).IsUnicode(false).HasMaxLength(50);
+            builder.Property(x => x.Make).HasColumnName(@"Make").HasColumnType("varchar(max)").IsRequired(false).IsUnicode(false);
+            builder.Property(x => x.Model).HasColumnName(@"Model").HasColumnType("varchar(256)").IsRequired(false).IsUnicode(false).HasMaxLength(256);
+            builder.Property(x => x.Year).HasColumnName(@"Year").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.Mileage).HasColumnName(@"Mileage").HasColumnType("bigint").IsRequired(false);
+            builder.Property(x => x.MileageDate).HasColumnName(@"MileageDate").HasColumnType("datetime").IsRequired(false);
+            builder.Property(x => x.ApparatusType).HasColumnName(@"ApparatusType").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.FuelType).HasColumnName(@"FuelType").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.DriveType).HasColumnName(@"DriveType").HasColumnType("int").IsRequired(false);
+
+            // Foreign keys
+            builder.HasOne(a => a.Vehicle_ApparatusType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.ApparatusType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Type");
+            builder.HasOne(a => a.Vehicle_DriveType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.DriveType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_DriveType");
+            builder.HasOne(a => a.Vehicle_FuelType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.FuelType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FuelType");
         }
     }
 

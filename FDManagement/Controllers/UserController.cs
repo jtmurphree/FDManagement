@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FDManagement.Repositories.Interface;
-using Microsoft.EntityFrameworkCore;
-using FDManagement.Models.Domain;
 using FDManagement.Models.DTO;
 
 namespace FDManagement.Controllers

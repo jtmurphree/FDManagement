@@ -1,5 +1,4 @@
-﻿//using FDManagement.Models.Domain;
-using FDManagement.Repositories.Interface;
+﻿using FDManagement.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace FDManagement.Repositories.Implementation
@@ -22,8 +21,7 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<IEnumerable<Global_User>> GetAllAsync()
         {
-            var users = await dbContext.Global_Users.ToListAsync();
-            return users;
+            return await dbContext.Global_Users.ToListAsync();
         }
     }
 }

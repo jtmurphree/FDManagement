@@ -34,6 +34,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IApparatusRepository, ApparatusRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 var app = builder.Build();
 
