@@ -19,9 +19,38 @@ namespace FDManagement.Repositories.Implementation
             return user;
         }
 
+        public async Task<Global_RegisteredUserRole> CreateRegisteredRoleAsync(Global_RegisteredUserRole userRole)
+        {
+            await dbContext.Global_RegisteredUserRoles.AddAsync(userRole);
+            await dbContext.SaveChangesAsync();
+            return userRole;
+        }
+
+        public async Task<Global_UserRole> CreateRoleAsync(Global_UserRole userRole)
+        {
+            await dbContext.Global_UserRoles.AddAsync(userRole);
+            await dbContext.SaveChangesAsync();
+            return userRole;
+        }
+
+        public Task<Global_UserRole> CreateRoleAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Global_User>> GetAllAsync()
         {
             return await dbContext.Global_Users.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Global_RegisteredUserRole>> GetRegisteredRolesAsync()
+        {
+            return await dbContext.Global_RegisteredUserRoles.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Global_UserRole>> GetRolesAsync()
+        {
+            return await dbContext.Global_UserRoles.ToListAsync();
         }
     }
 }

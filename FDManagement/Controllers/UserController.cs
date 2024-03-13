@@ -63,5 +63,45 @@ namespace FDManagement.Controllers
             }
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("api/[controller]/roles")]
+        public async Task<IActionResult> GetUserRoles()
+        {
+            var roles = await userRepository.GetRolesAsync();
+            var response = new List<UserRoleDto>();
+
+            foreach(var role in roles)
+            {
+                response.Add(new UserRoleDto
+                {
+                    ID = role.Id,
+                    Name = role.Name,
+                    Descrtiption = role.Description
+                });
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/registerdRoles")]
+        public async Task<IActionResult> GetRegisteredRoles()
+        {
+            var roles = await userRepository.GetRegisteredRolesAsync();
+            var response = new List<RegisteredUserRoleDto>();
+
+            foreach(var role in roles)
+            {
+                response.Add(new RegisteredUserRoleDto
+                {
+                    ID = role.Id,
+                    UserID = role.UserId,
+                    RoleID = role.RoleId
+                });
+            }
+
+            return Ok(response);
+        }
     }
 }
