@@ -103,5 +103,21 @@ namespace FDManagement.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost]
+        [Route("api/[controller]/CreateUserRole")]
+        public async Task<IActionResult> CreateUserRole(Global_UserRole role)
+        {
+            await userRepository.CreateRoleAsync(role);
+            return Ok(role);
+        }
+
+        [HttpPost]
+        [Route("api/[controller]/CreateRegisteredRole")]
+        public async Task<IActionResult> CreateRegisteredRole(Global_RegisteredUserRole role)
+        {
+            await userRepository.CreateRegisteredRoleAsync(role);
+            return Ok(role);
+        }
     }
 }

@@ -33,11 +33,6 @@ namespace FDManagement.Repositories.Implementation
             return userRole;
         }
 
-        public Task<Global_UserRole> CreateRoleAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Global_User>> GetAllAsync()
         {
             return await dbContext.Global_Users.ToListAsync();
