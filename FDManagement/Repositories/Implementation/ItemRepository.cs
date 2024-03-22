@@ -18,7 +18,7 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<IEnumerable<Inventory_Item>> GetAllAsync()
         {
-            return await dbContext.Inventory_Items.ToListAsync();
+            return await dbContext.Inventory_Items.Include(i => i.Inventory_Category).ToListAsync();
         }
 
         public async Task<IEnumerable<Inventory_Category>> GetCategoriesAsync()
