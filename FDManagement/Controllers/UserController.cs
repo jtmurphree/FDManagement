@@ -65,6 +65,15 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
+        [Route("api/[controller]/{id}")]
+        public async Task<IActionResult> GetUserByID(int id)
+        {
+            var user = await userRepository.GetById(id);
+
+            return Ok(user);
+        }
+
+        [HttpGet]
         [Route("api/[controller]/roles")]
         public async Task<IActionResult> GetUserRoles()
         {

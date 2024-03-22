@@ -1,4 +1,5 @@
 ﻿using FDManagement.Repositories.Interface;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace FDManagement.Repositories.Implementation
@@ -36,6 +37,18 @@ namespace FDManagement.Repositories.Implementation
         public async Task<IEnumerable<Global_User>> GetAllAsync()
         {
             return await dbContext.Global_Users.ToListAsync();
+        }
+
+        public async Task<Global_User> GetById(int id)
+        {
+            var user = await dbContext.Global_Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            
+            if(user == null)
+            {
+                user = new Global_User();
+            }
+
+            return user;
         }
 
         public async Task<IEnumerable<Global_RegisteredUserRole>> GetRegisteredRolesAsync()

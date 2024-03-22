@@ -1,6 +1,6 @@
 ﻿namespace FDManagement.Models.DTO
 {
-    public class ItemsDto
+    public class ItemDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
