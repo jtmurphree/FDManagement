@@ -10,6 +10,8 @@
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public int? UserRoleId { get; set; }
+        public string UserRoleName { get; set; }
         public int AccessFailedCount { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }

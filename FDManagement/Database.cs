@@ -885,17 +885,29 @@ namespace FDManagement
         public int UserId { get; set; } // UserID
         public int RoleId { get; set; } // RoleID
 
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Global_Users where [Users].[UserRoleID] point to this entity (FK_Users_RegisteredUserRoles)
+        /// </summary>
+        public ICollection<Global_User> Global_Users { get; set; } // Users.FK_Users_RegisteredUserRoles
+
         // Foreign keys
 
         /// <summary>
-        /// Parent Global_User pointed by [RegisteredUserRoles].([UserId]) (FK__Registere__UserI__367C1819)
+        /// Parent Global_User pointed by [RegisteredUserRoles].([UserId]) (FK__Registere__UserI__56E8E7AB)
         /// </summary>
-        public Global_User Global_User { get; set; } // FK__Registere__UserI__367C1819
+        public Global_User Global_User { get; set; } // FK__Registere__UserI__56E8E7AB
 
         /// <summary>
-        /// Parent Global_UserRole pointed by [RegisteredUserRoles].([RoleId]) (FK__Registere__RoleI__37703C52)
+        /// Parent Global_UserRole pointed by [RegisteredUserRoles].([RoleId]) (FK__Registere__RoleI__57DD0BE4)
         /// </summary>
-        public Global_UserRole Global_UserRole { get; set; } // FK__Registere__RoleI__37703C52
+        public Global_UserRole Global_UserRole { get; set; } // FK__Registere__RoleI__57DD0BE4
+
+        public Global_RegisteredUserRole()
+        {
+            Global_Users = new List<Global_User>();
+        }
     }
 
     // Users
@@ -910,6 +922,7 @@ namespace FDManagement
         public string PhoneNumber { get; set; } // PhoneNumber (length: 20)
         public string Email { get; set; } // Email (length: 255)
         public string PasswordHash { get; set; } // PasswordHash
+        public int? UserRoleId { get; set; } // UserRoleID
         public int? AccessFailedCount { get; set; } // AccessFailedCount
         public DateTime DateAdded { get; set; } // DateAdded
         public DateTime? DateUpdated { get; set; } // DateUpdated
@@ -918,9 +931,16 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[UserID] point to this entity (FK__Registere__UserI__367C1819)
+        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[UserID] point to this entity (FK__Registere__UserI__56E8E7AB)
         /// </summary>
-        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__UserI__367C1819
+        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__UserI__56E8E7AB
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent Global_RegisteredUserRole pointed by [Users].([UserRoleId]) (FK_Users_RegisteredUserRoles)
+        /// </summary>
+        public Global_RegisteredUserRole Global_RegisteredUserRole { get; set; } // FK_Users_RegisteredUserRoles
 
         public Global_User()
         {
@@ -938,9 +958,9 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[RoleID] point to this entity (FK__Registere__RoleI__37703C52)
+        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[RoleID] point to this entity (FK__Registere__RoleI__57DD0BE4)
         /// </summary>
-        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__RoleI__37703C52
+        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__RoleI__57DD0BE4
 
         public Global_UserRole()
         {
@@ -1093,15 +1113,15 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Global_RegisteredUserRole> builder)
         {
             builder.ToTable("RegisteredUserRoles", "Global");
-            builder.HasKey(x => x.Id).HasName("PK__Register__3214EC279F55E75C").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Register__3214EC2712A242AB").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.UserId).HasColumnName(@"UserID").HasColumnType("int").IsRequired();
             builder.Property(x => x.RoleId).HasColumnName(@"RoleID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            builder.HasOne(a => a.Global_User).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__UserI__367C1819");
-            builder.HasOne(a => a.Global_UserRole).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.RoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__RoleI__37703C52");
+            builder.HasOne(a => a.Global_User).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__UserI__56E8E7AB");
+            builder.HasOne(a => a.Global_UserRole).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.RoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__RoleI__57DD0BE4");
         }
     }
 
@@ -1111,7 +1131,7 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Global_User> builder)
         {
             builder.ToTable("Users", "Global");
-            builder.HasKey(x => x.Id).HasName("PK__Users__3214EC27FD4B0C49").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Users__3214EC27A6A07C3E").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.FirstName).HasColumnName(@"FirstName").HasColumnType("varchar(255)").IsRequired().IsUnicode(false).HasMaxLength(255);
@@ -1122,10 +1142,14 @@ namespace FDManagement
             builder.Property(x => x.PhoneNumber).HasColumnName(@"PhoneNumber").HasColumnType("varchar(20)").IsRequired(false).IsUnicode(false).HasMaxLength(20);
             builder.Property(x => x.Email).HasColumnName(@"Email").HasColumnType("varchar(255)").IsRequired(false).IsUnicode(false).HasMaxLength(255);
             builder.Property(x => x.PasswordHash).HasColumnName(@"PasswordHash").HasColumnType("nvarchar(max)").IsRequired(false);
+            builder.Property(x => x.UserRoleId).HasColumnName(@"UserRoleID").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.AccessFailedCount).HasColumnName(@"AccessFailedCount").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.DateAdded).HasColumnName(@"DateAdded").HasColumnType("datetime").IsRequired();
             builder.Property(x => x.DateUpdated).HasColumnName(@"DateUpdated").HasColumnType("datetime").IsRequired(false);
             builder.Property(x => x.TempPw).HasColumnName(@"TempPW").HasColumnType("bit").IsRequired();
+
+            // Foreign keys
+            builder.HasOne(a => a.Global_RegisteredUserRole).WithMany(b => b.Global_Users).HasForeignKey(c => c.UserRoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Users_RegisteredUserRoles");
         }
     }
 
