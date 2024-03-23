@@ -40,9 +40,12 @@ namespace FDManagement.Controllers
                     Year = app.Year,
                     Mileage = app.Mileage,
                     MileageDate = app.MileageDate,
-                    ApparatusType = app.ApparatusType,
-                    FuelType = app.FuelType,
-                    DriveType = app.DriveType
+                    ApparatusTypeID = app.ApparatusTypeId,
+                    ApparatusType = app.Vehicle_ApparatusType.Name,
+                    FuelTypeID = app.FuelTypeId,
+                    FuelType = app.Vehicle_FuelType.Name,
+                    DriveTypeID = app.DriveTypeId,
+                    DriveType = app.Vehicle_DriveType.Name
                 });
             }
 

@@ -885,17 +885,29 @@ namespace FDManagement
         public int UserId { get; set; } // UserID
         public int RoleId { get; set; } // RoleID
 
+        // Reverse navigation
+
+        /// <summary>
+        /// Child Global_Users where [Users].[UserRoleID] point to this entity (FK_Users_RegisteredUserRoles)
+        /// </summary>
+        public ICollection<Global_User> Global_Users { get; set; } // Users.FK_Users_RegisteredUserRoles
+
         // Foreign keys
 
         /// <summary>
-        /// Parent Global_User pointed by [RegisteredUserRoles].([UserId]) (FK__Registere__UserI__367C1819)
+        /// Parent Global_User pointed by [RegisteredUserRoles].([UserId]) (FK__Registere__UserI__56E8E7AB)
         /// </summary>
-        public Global_User Global_User { get; set; } // FK__Registere__UserI__367C1819
+        public Global_User Global_User { get; set; } // FK__Registere__UserI__56E8E7AB
 
         /// <summary>
-        /// Parent Global_UserRole pointed by [RegisteredUserRoles].([RoleId]) (FK__Registere__RoleI__37703C52)
+        /// Parent Global_UserRole pointed by [RegisteredUserRoles].([RoleId]) (FK__Registere__RoleI__57DD0BE4)
         /// </summary>
-        public Global_UserRole Global_UserRole { get; set; } // FK__Registere__RoleI__37703C52
+        public Global_UserRole Global_UserRole { get; set; } // FK__Registere__RoleI__57DD0BE4
+
+        public Global_RegisteredUserRole()
+        {
+            Global_Users = new List<Global_User>();
+        }
     }
 
     // Users
@@ -910,6 +922,7 @@ namespace FDManagement
         public string PhoneNumber { get; set; } // PhoneNumber (length: 20)
         public string Email { get; set; } // Email (length: 255)
         public string PasswordHash { get; set; } // PasswordHash
+        public int? UserRoleId { get; set; } // UserRoleID
         public int? AccessFailedCount { get; set; } // AccessFailedCount
         public DateTime DateAdded { get; set; } // DateAdded
         public DateTime? DateUpdated { get; set; } // DateUpdated
@@ -918,9 +931,16 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[UserID] point to this entity (FK__Registere__UserI__367C1819)
+        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[UserID] point to this entity (FK__Registere__UserI__56E8E7AB)
         /// </summary>
-        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__UserI__367C1819
+        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__UserI__56E8E7AB
+
+        // Foreign keys
+
+        /// <summary>
+        /// Parent Global_RegisteredUserRole pointed by [Users].([UserRoleId]) (FK_Users_RegisteredUserRoles)
+        /// </summary>
+        public Global_RegisteredUserRole Global_RegisteredUserRole { get; set; } // FK_Users_RegisteredUserRoles
 
         public Global_User()
         {
@@ -938,9 +958,9 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[RoleID] point to this entity (FK__Registere__RoleI__37703C52)
+        /// Child Global_RegisteredUserRoles where [RegisteredUserRoles].[RoleID] point to this entity (FK__Registere__RoleI__57DD0BE4)
         /// </summary>
-        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__RoleI__37703C52
+        public ICollection<Global_RegisteredUserRole> Global_RegisteredUserRoles { get; set; } // RegisteredUserRoles.FK__Registere__RoleI__57DD0BE4
 
         public Global_UserRole()
         {
@@ -958,7 +978,7 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Inventory_Items where [Items].[Category] point to this entity (FK_Category)
+        /// Child Inventory_Items where [Items].[CategoryID] point to this entity (FK_Category)
         /// </summary>
         public ICollection<Inventory_Item> Inventory_Items { get; set; } // Items.FK_Category
 
@@ -976,12 +996,12 @@ namespace FDManagement
         public string Description { get; set; } // Description
         public string SerialNumber { get; set; } // SerialNumber (length: 255)
         public decimal? Value { get; set; } // Value
-        public int? Category { get; set; } // Category
+        public int? CategoryId { get; set; } // CategoryID
 
         // Foreign keys
 
         /// <summary>
-        /// Parent Inventory_Category pointed by [Items].([Category]) (FK_Category)
+        /// Parent Inventory_Category pointed by [Items].([CategoryId]) (FK_Category)
         /// </summary>
         public Inventory_Category Inventory_Category { get; set; } // FK_Category
     }
@@ -996,24 +1016,24 @@ namespace FDManagement
         public int? Year { get; set; } // Year
         public long? Mileage { get; set; } // Mileage
         public DateTime? MileageDate { get; set; } // MileageDate
-        public int? ApparatusType { get; set; } // ApparatusType
-        public int? FuelType { get; set; } // FuelType
-        public int? DriveType { get; set; } // DriveType
+        public int? ApparatusTypeId { get; set; } // ApparatusTypeID
+        public int? FuelTypeId { get; set; } // FuelTypeID
+        public int? DriveTypeId { get; set; } // DriveTypeID
 
         // Foreign keys
 
         /// <summary>
-        /// Parent Vehicle_ApparatusType pointed by [Apparatus].([ApparatusType]) (FK_Type)
+        /// Parent Vehicle_ApparatusType pointed by [Apparatus].([ApparatusTypeId]) (FK_Type)
         /// </summary>
         public Vehicle_ApparatusType Vehicle_ApparatusType { get; set; } // FK_Type
 
         /// <summary>
-        /// Parent Vehicle_DriveType pointed by [Apparatus].([DriveType]) (FK_DriveType)
+        /// Parent Vehicle_DriveType pointed by [Apparatus].([DriveTypeId]) (FK_DriveType)
         /// </summary>
         public Vehicle_DriveType Vehicle_DriveType { get; set; } // FK_DriveType
 
         /// <summary>
-        /// Parent Vehicle_FuelType pointed by [Apparatus].([FuelType]) (FK_FuelType)
+        /// Parent Vehicle_FuelType pointed by [Apparatus].([FuelTypeId]) (FK_FuelType)
         /// </summary>
         public Vehicle_FuelType Vehicle_FuelType { get; set; } // FK_FuelType
     }
@@ -1028,7 +1048,7 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Vehicle_Apparatus where [Apparatus].[ApparatusType] point to this entity (FK_Type)
+        /// Child Vehicle_Apparatus where [Apparatus].[ApparatusTypeID] point to this entity (FK_Type)
         /// </summary>
         public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_Type
 
@@ -1048,7 +1068,7 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Vehicle_Apparatus where [Apparatus].[DriveType] point to this entity (FK_DriveType)
+        /// Child Vehicle_Apparatus where [Apparatus].[DriveTypeID] point to this entity (FK_DriveType)
         /// </summary>
         public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_DriveType
 
@@ -1068,7 +1088,7 @@ namespace FDManagement
         // Reverse navigation
 
         /// <summary>
-        /// Child Vehicle_Apparatus where [Apparatus].[FuelType] point to this entity (FK_FuelType)
+        /// Child Vehicle_Apparatus where [Apparatus].[FuelTypeID] point to this entity (FK_FuelType)
         /// </summary>
         public ICollection<Vehicle_Apparatus> Vehicle_Apparatus { get; set; } // Apparatus.FK_FuelType
 
@@ -1093,15 +1113,15 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Global_RegisteredUserRole> builder)
         {
             builder.ToTable("RegisteredUserRoles", "Global");
-            builder.HasKey(x => x.Id).HasName("PK__Register__3214EC279F55E75C").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Register__3214EC2712A242AB").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.UserId).HasColumnName(@"UserID").HasColumnType("int").IsRequired();
             builder.Property(x => x.RoleId).HasColumnName(@"RoleID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            builder.HasOne(a => a.Global_User).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__UserI__367C1819");
-            builder.HasOne(a => a.Global_UserRole).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.RoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__RoleI__37703C52");
+            builder.HasOne(a => a.Global_User).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__UserI__56E8E7AB");
+            builder.HasOne(a => a.Global_UserRole).WithMany(b => b.Global_RegisteredUserRoles).HasForeignKey(c => c.RoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Registere__RoleI__57DD0BE4");
         }
     }
 
@@ -1111,7 +1131,7 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Global_User> builder)
         {
             builder.ToTable("Users", "Global");
-            builder.HasKey(x => x.Id).HasName("PK__Users__3214EC27FD4B0C49").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Users__3214EC27A6A07C3E").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.FirstName).HasColumnName(@"FirstName").HasColumnType("varchar(255)").IsRequired().IsUnicode(false).HasMaxLength(255);
@@ -1122,10 +1142,14 @@ namespace FDManagement
             builder.Property(x => x.PhoneNumber).HasColumnName(@"PhoneNumber").HasColumnType("varchar(20)").IsRequired(false).IsUnicode(false).HasMaxLength(20);
             builder.Property(x => x.Email).HasColumnName(@"Email").HasColumnType("varchar(255)").IsRequired(false).IsUnicode(false).HasMaxLength(255);
             builder.Property(x => x.PasswordHash).HasColumnName(@"PasswordHash").HasColumnType("nvarchar(max)").IsRequired(false);
+            builder.Property(x => x.UserRoleId).HasColumnName(@"UserRoleID").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.AccessFailedCount).HasColumnName(@"AccessFailedCount").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.DateAdded).HasColumnName(@"DateAdded").HasColumnType("datetime").IsRequired();
             builder.Property(x => x.DateUpdated).HasColumnName(@"DateUpdated").HasColumnType("datetime").IsRequired(false);
             builder.Property(x => x.TempPw).HasColumnName(@"TempPW").HasColumnType("bit").IsRequired();
+
+            // Foreign keys
+            builder.HasOne(a => a.Global_RegisteredUserRole).WithMany(b => b.Global_Users).HasForeignKey(c => c.UserRoleId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Users_RegisteredUserRoles");
         }
     }
 
@@ -1163,17 +1187,17 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Inventory_Item> builder)
         {
             builder.ToTable("Items", "Inventory");
-            builder.HasKey(x => x.Id).HasName("PK__Items__3214EC27F7C87423").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Items__3214EC275A60C218").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.Name).HasColumnName(@"Name").HasColumnType("varchar(255)").IsRequired().IsUnicode(false).HasMaxLength(255);
             builder.Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar(max)").IsRequired(false).IsUnicode(false);
             builder.Property(x => x.SerialNumber).HasColumnName(@"SerialNumber").HasColumnType("varchar(255)").IsRequired(false).IsUnicode(false).HasMaxLength(255);
             builder.Property(x => x.Value).HasColumnName(@"Value").HasColumnType("decimal(10,2)").HasPrecision(10,2).IsRequired(false);
-            builder.Property(x => x.Category).HasColumnName(@"Category").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.CategoryId).HasColumnName(@"CategoryID").HasColumnType("int").IsRequired(false);
 
             // Foreign keys
-            builder.HasOne(a => a.Inventory_Category).WithMany(b => b.Inventory_Items).HasForeignKey(c => c.Category).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Category");
+            builder.HasOne(a => a.Inventory_Category).WithMany(b => b.Inventory_Items).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Category");
         }
     }
 
@@ -1183,7 +1207,7 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Vehicle_Apparatus> builder)
         {
             builder.ToTable("Apparatus", "Vehicle");
-            builder.HasKey(x => x.Id).HasName("PK__Apparatu__3214EC27C0C5F68F").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Apparatu__3214EC2707F9E5FA").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.UnitNum).HasColumnName(@"UnitNum").HasColumnType("varchar(50)").IsRequired(false).IsUnicode(false).HasMaxLength(50);
@@ -1192,14 +1216,14 @@ namespace FDManagement
             builder.Property(x => x.Year).HasColumnName(@"Year").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.Mileage).HasColumnName(@"Mileage").HasColumnType("bigint").IsRequired(false);
             builder.Property(x => x.MileageDate).HasColumnName(@"MileageDate").HasColumnType("datetime").IsRequired(false);
-            builder.Property(x => x.ApparatusType).HasColumnName(@"ApparatusType").HasColumnType("int").IsRequired(false);
-            builder.Property(x => x.FuelType).HasColumnName(@"FuelType").HasColumnType("int").IsRequired(false);
-            builder.Property(x => x.DriveType).HasColumnName(@"DriveType").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.ApparatusTypeId).HasColumnName(@"ApparatusTypeID").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.FuelTypeId).HasColumnName(@"FuelTypeID").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.DriveTypeId).HasColumnName(@"DriveTypeID").HasColumnType("int").IsRequired(false);
 
             // Foreign keys
-            builder.HasOne(a => a.Vehicle_ApparatusType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.ApparatusType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Type");
-            builder.HasOne(a => a.Vehicle_DriveType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.DriveType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_DriveType");
-            builder.HasOne(a => a.Vehicle_FuelType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.FuelType).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FuelType");
+            builder.HasOne(a => a.Vehicle_ApparatusType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.ApparatusTypeId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Type");
+            builder.HasOne(a => a.Vehicle_DriveType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.DriveTypeId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_DriveType");
+            builder.HasOne(a => a.Vehicle_FuelType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.FuelTypeId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FuelType");
         }
     }
 

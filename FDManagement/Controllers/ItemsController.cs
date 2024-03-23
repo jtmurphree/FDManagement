@@ -19,18 +19,19 @@ namespace FDManagement.Controllers
         public async Task<IActionResult> GetAllItems()
         {
             var items = await itemRepository.GetAllAsync();
-            var response = new List<ItemsDto>();
+            var response = new List<ItemDto>();
 
             foreach(var item in items)
             {
-                response.Add(new ItemsDto
+                response.Add(new ItemDto
                 {
                     ID = item.Id,
                     Name = item.Name,
                     Description = item.Description,
                     SerialNumber = item.SerialNumber,
                     Value = item.Value,
-                    Category = item.Category
+                    CategoryID = item.CategoryId,
+                    CategoryName = item.Inventory_Category.Name
                 });
             }
 

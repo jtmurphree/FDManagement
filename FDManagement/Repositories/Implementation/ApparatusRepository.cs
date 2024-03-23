@@ -19,7 +19,7 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<IEnumerable<Vehicle_Apparatus>> GetAllAsync()
         {
-            return await dbContext.Vehicle_Apparatus.ToListAsync();
+            return await dbContext.Vehicle_Apparatus.Include(a => a.Vehicle_FuelType).Include(a => a.Vehicle_DriveType).Include(a => a.Vehicle_ApparatusType).ToListAsync();
         }
 
         public async Task<IEnumerable<Vehicle_DriveType>> GetDriveTypesAsync()
