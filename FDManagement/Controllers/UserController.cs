@@ -57,6 +57,8 @@ namespace FDManagement.Controllers
                     EmployeeId = user.EmployeeId,
                     PasswordHash = user.PasswordHash,
                     AccessFailedCount = user.AccessFailedCount != null ? (int)user.AccessFailedCount : 0,
+                    UserRoleId = user.Global_RegisteredUserRole != null ? user.Global_RegisteredUserRole.Global_UserRole.Id : null,
+                    UserRoleName = user.Global_RegisteredUserRole != null ? user.Global_RegisteredUserRole.Global_UserRole.Name : "",
                     DateAdded = user.DateAdded,
                     DateUpdated = user.DateUpdated
                 });

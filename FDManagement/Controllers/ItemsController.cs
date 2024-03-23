@@ -30,7 +30,8 @@ namespace FDManagement.Controllers
                     Description = item.Description,
                     SerialNumber = item.SerialNumber,
                     Value = item.Value,
-                    Category = item.Category
+                    CategoryID = item.CategoryId,
+                    CategoryName = item.Inventory_Category.Name
                 });
             }
 

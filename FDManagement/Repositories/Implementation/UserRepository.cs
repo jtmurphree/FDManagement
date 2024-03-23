@@ -36,7 +36,7 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<IEnumerable<Global_User>> GetAllAsync()
         {
-            return await dbContext.Global_Users.ToListAsync();
+            return await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRole.Global_UserRole).ToListAsync();
         }
 
         public async Task<Global_User> GetById(int id)
