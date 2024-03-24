@@ -30,9 +30,10 @@ namespace FDManagement.Controllers
                 DisplayName = user.DisplayName,
                 EmployeeId = user.EmployeeId,
                 PasswordHash = user.PasswordHash,
-                AccessFailedCount = user.AccessFailedCount != null ? (int)user.AccessFailedCount : 0,
-                DateAdded = user.DateAdded,
-                DateUpdated = user.DateUpdated
+                AccessFailedCount = 0,
+                DateAdded = DateTime.Now,
+                DateUpdated = null,
+                TempPw = false
             };
 
             return Ok(response);

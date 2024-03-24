@@ -3,7 +3,21 @@ using FDManagement.Repositories.Implementation;
 using Microsoft.EntityFrameworkCore;
 using FDManagement;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+
+//allowing only cors from the ui server
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.AllowAnyHeader();
+                          policy.WithOrigins("http://localhost:4200");
+                          policy.AllowAnyMethod();
+
+                      });
+});
 
 // Add services to the container.
 
@@ -17,22 +31,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicaionDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("FdManConnectionString"));
-});
-
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-
-//allowing only cors from the ui server
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.AllowAnyHeader();
-                          policy.WithOrigins("http://localhost:4200");
-                          policy.AllowAnyMethod();
-
-                      });
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
