@@ -53,7 +53,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/types")]
+        [Route("types")]
         public async Task<IActionResult> GetTypes()
         {
             var types = await apparatusRepository.GetTypesAsync();
@@ -73,7 +73,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/FuelTypes")]
+        [Route("fueltypes")]
         public async Task<IActionResult> GetFuelTypes()
         {
             var fuelTypes = await apparatusRepository.GetFuelTypesAsync();
@@ -94,7 +94,7 @@ namespace FDManagement.Controllers
 
 
         [HttpGet]
-        [Route("api/[controller]/DriveTypes")]
+        [Route("drivetypes")]
         public async Task<IActionResult> GetDriveTypes()
         {
             var driveTypes = await apparatusRepository.GetDriveTypesAsync();

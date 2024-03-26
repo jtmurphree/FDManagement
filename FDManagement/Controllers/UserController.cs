@@ -30,9 +30,10 @@ namespace FDManagement.Controllers
                 DisplayName = user.DisplayName,
                 EmployeeId = user.EmployeeId,
                 PasswordHash = user.PasswordHash,
-                AccessFailedCount = user.AccessFailedCount != null ? (int)user.AccessFailedCount : 0,
-                DateAdded = user.DateAdded,
-                DateUpdated = user.DateUpdated
+                AccessFailedCount = 0,
+                DateAdded = DateTime.Now,
+                DateUpdated = null,
+                TempPw = false
             };
 
             return Ok(response);
@@ -67,7 +68,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
             var user = await userRepository.GetById(id);
@@ -76,7 +77,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/roles")]
+        [Route("roles")]
         public async Task<IActionResult> GetUserRoles()
         {
             var roles = await userRepository.GetRolesAsync();
@@ -96,7 +97,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/registerdRoles")]
+        [Route("registerdRoles")]
         public async Task<IActionResult> GetRegisteredRoles()
         {
             var roles = await userRepository.GetRegisteredRolesAsync();
@@ -116,7 +117,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/CreateUserRole")]
+        [Route("CreateUserRole")]
         public async Task<IActionResult> CreateUserRole(Global_UserRole role)
         {
             await userRepository.CreateRoleAsync(role);
@@ -124,7 +125,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/CreateRegisteredRole")]
+        [Route("CreateRegisteredRole")]
         public async Task<IActionResult> CreateRegisteredRole(Global_RegisteredUserRole role)
         {
             await userRepository.CreateRegisteredRoleAsync(role);
