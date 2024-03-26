@@ -68,7 +68,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
             var user = await userRepository.GetById(id);
@@ -77,7 +77,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/roles")]
+        [Route("roles")]
         public async Task<IActionResult> GetUserRoles()
         {
             var roles = await userRepository.GetRolesAsync();
@@ -97,7 +97,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/registerdRoles")]
+        [Route("registerdRoles")]
         public async Task<IActionResult> GetRegisteredRoles()
         {
             var roles = await userRepository.GetRegisteredRolesAsync();
@@ -117,7 +117,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/CreateUserRole")]
+        [Route("CreateUserRole")]
         public async Task<IActionResult> CreateUserRole(Global_UserRole role)
         {
             await userRepository.CreateRoleAsync(role);
@@ -125,7 +125,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/CreateRegisteredRole")]
+        [Route("CreateRegisteredRole")]
         public async Task<IActionResult> CreateRegisteredRole(Global_RegisteredUserRole role)
         {
             await userRepository.CreateRegisteredRoleAsync(role);
