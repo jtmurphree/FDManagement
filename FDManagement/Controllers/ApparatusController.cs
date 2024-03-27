@@ -18,8 +18,24 @@ namespace FDManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateApparatus(Vehicle_Apparatus apparatus)
         {
+            apparatus.DateAdded = DateTime.Now;
             await apparatusRepository.CreateAsync(apparatus);
-            //implement dto?
+
+            var response = new ApparatusDto
+            {
+                UnitNum = apparatus.UnitNum,
+                Make = apparatus.Make,
+                Model = apparatus.Model,
+                Year = apparatus.Year,
+                Mileage = apparatus.Mileage,
+                MileageDate = apparatus.MileageDate,
+                ApparatusTypeID = apparatus.ApparatusTypeId,
+                FuelTypeID = apparatus.FuelTypeId,
+                DriveTypeID = apparatus.DriveTypeId,
+                DateAdded = apparatus.DateAdded,
+                DateUpdated = apparatus.DateUpdated
+            };
+
             return Ok(apparatus);
         }
 
