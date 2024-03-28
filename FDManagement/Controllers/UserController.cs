@@ -117,7 +117,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("CreateUserRole")]
+        [Route("createuserrole")]
         public async Task<IActionResult> CreateUserRole(Global_UserRole role)
         {
             await userRepository.CreateRoleAsync(role);
@@ -125,7 +125,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        [Route("CreateRegisteredRole")]
+        [Route("createregisteredrole")]
         public async Task<IActionResult> CreateRegisteredRole(Global_RegisteredUserRole role)
         {
             await userRepository.CreateRegisteredRoleAsync(role);
