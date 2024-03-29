@@ -11,9 +11,19 @@ namespace FDManagement.Repositories.Implementation
         {
             this.dbContext = dbContext;
         }
-        public Task<Inventory_Item> Create(Inventory_Item item)
+
+        public async Task<Inventory_Category> CreatCategoryAsync(Inventory_Category category)
         {
-            throw new NotImplementedException();
+            await dbContext.Inventory_Categories.AddAsync(category);
+            await dbContext.SaveChangesAsync();
+            return category;
+        }
+
+        public async Task<Inventory_Item> CreateAsync(Inventory_Item item)
+        {
+            await dbContext.Inventory_Items.AddAsync(item);
+            await dbContext.SaveChangesAsync();
+            return item;
         }
 
         public async Task<IEnumerable<Inventory_Item>> GetAllAsync()
