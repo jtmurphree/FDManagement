@@ -26,6 +26,9 @@ namespace FDManagement.Controllers
                 ID = item.Id,
                 Name = item.Name,
                 Description = item.Description,
+                SerialNumber = item.SerialNumber,
+                Value = item.Value,
+                CategoryID = item.CategoryId
             };
 
             return Ok(response);
@@ -71,7 +74,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/categories")]
+        [Route("categories")]
         public async Task<IActionResult> GetAllCategories() 
         {
             var categories = await itemRepository.GetCategoriesAsync();
