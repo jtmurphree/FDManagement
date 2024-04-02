@@ -89,7 +89,7 @@ namespace FDManagement.Controllers
                 {
                     ID = role.Id,
                     Name = role.Name,
-                    Descrtiption = role.Description
+                    Description = role.Description
                 });
             }
 
