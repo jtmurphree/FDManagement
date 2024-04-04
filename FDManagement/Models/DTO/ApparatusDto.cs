@@ -15,5 +15,7 @@
         public string FuelType { get; set; }
         public int? DriveTypeID { get; set; }
         public string DriveType { get; set;}
+        public DateTime DateAdded { get; set; }
+        public DateTime? DateUpdated { get; set; }
     }
 }

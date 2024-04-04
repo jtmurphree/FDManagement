@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FDManagement.Repositories.Interface;
 using FDManagement.Models.DTO;
+using System.Runtime.CompilerServices;
 
 namespace FDManagement.Controllers
 {
@@ -13,6 +14,40 @@ namespace FDManagement.Controllers
         public ItemsController(IItemRepository itemRepository)
         {
             this.itemRepository = itemRepository;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateItem(Inventory_Item item)
+        {
+            await itemRepository.CreateAsync(item);
+
+            var response = new ItemDto
+            {
+                ID = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                SerialNumber = item.SerialNumber,
+                Value = item.Value,
+                CategoryID = item.CategoryId
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("addcategory")]
+        public async Task<IActionResult> CreateCategory(Inventory_Category category)
+        {
+            await itemRepository.CreatCategoryAsync(category);
+
+            var response = new CategoriesDto
+            {
+                ID = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+            };
+
+            return Ok(response);
         }
 
         [HttpGet]
@@ -39,7 +74,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/categories")]
+        [Route("categories")]
         public async Task<IActionResult> GetAllCategories() 
         {
             var categories = await itemRepository.GetCategoriesAsync();

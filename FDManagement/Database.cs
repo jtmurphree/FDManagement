@@ -1019,6 +1019,8 @@ namespace FDManagement
         public int? ApparatusTypeId { get; set; } // ApparatusTypeID
         public int? FuelTypeId { get; set; } // FuelTypeID
         public int? DriveTypeId { get; set; } // DriveTypeID
+        public DateTime DateAdded { get; set; } // DateAdded
+        public DateTime? DateUpdated { get; set; } // DateUpdated
 
         // Foreign keys
 
@@ -1207,7 +1209,7 @@ namespace FDManagement
         public void Configure(EntityTypeBuilder<Vehicle_Apparatus> builder)
         {
             builder.ToTable("Apparatus", "Vehicle");
-            builder.HasKey(x => x.Id).HasName("PK__Apparatu__3214EC2707F9E5FA").IsClustered();
+            builder.HasKey(x => x.Id).HasName("PK__Apparatu__3214EC272187C81D").IsClustered();
 
             builder.Property(x => x.Id).HasColumnName(@"ID").HasColumnType("int").IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
             builder.Property(x => x.UnitNum).HasColumnName(@"UnitNum").HasColumnType("varchar(50)").IsRequired(false).IsUnicode(false).HasMaxLength(50);
@@ -1219,6 +1221,8 @@ namespace FDManagement
             builder.Property(x => x.ApparatusTypeId).HasColumnName(@"ApparatusTypeID").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.FuelTypeId).HasColumnName(@"FuelTypeID").HasColumnType("int").IsRequired(false);
             builder.Property(x => x.DriveTypeId).HasColumnName(@"DriveTypeID").HasColumnType("int").IsRequired(false);
+            builder.Property(x => x.DateAdded).HasColumnName(@"DateAdded").HasColumnType("datetime").IsRequired();
+            builder.Property(x => x.DateUpdated).HasColumnName(@"DateUpdated").HasColumnType("datetime").IsRequired(false);
 
             // Foreign keys
             builder.HasOne(a => a.Vehicle_ApparatusType).WithMany(b => b.Vehicle_Apparatus).HasForeignKey(c => c.ApparatusTypeId).OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_Type");

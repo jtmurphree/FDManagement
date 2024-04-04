@@ -12,9 +12,32 @@ namespace FDManagement.Repositories.Implementation
             this.dbContext = dbContext;
         }
 
-        public Task<Vehicle_Apparatus> CreateAsync(Vehicle_Apparatus apparatus)
+        public async Task<Vehicle_Apparatus> CreateAsync(Vehicle_Apparatus apparatus)
         {
-            throw new NotImplementedException();
+            await dbContext.Vehicle_Apparatus.AddAsync(apparatus);
+            await dbContext.SaveChangesAsync();
+            return apparatus;
+        }
+
+        public async Task<Vehicle_DriveType> CreateDriveTypeAsync(Vehicle_DriveType driveType)
+        {
+            await dbContext.Vehicle_DriveTypes.AddAsync(driveType);
+            await dbContext.SaveChangesAsync();
+            return driveType;
+        }
+
+        public async Task<Vehicle_ApparatusType> CreateApparatusTypeAsync(Vehicle_ApparatusType type)
+        {
+            await dbContext.Vehicle_ApparatusTypes.AddAsync(type);
+            await dbContext.SaveChangesAsync();
+            return type;
+        }
+
+        public async Task<Vehicle_FuelType> CreateFuelTypeAsync(Vehicle_FuelType fuel)
+        {
+            await dbContext.Vehicle_FuelTypes.AddAsync(fuel);
+            await dbContext.SaveChangesAsync();
+            return fuel;
         }
 
         public async Task<IEnumerable<Vehicle_Apparatus>> GetAllAsync()

@@ -18,8 +18,24 @@ namespace FDManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateApparatus(Vehicle_Apparatus apparatus)
         {
+            apparatus.DateAdded = DateTime.Now;
             await apparatusRepository.CreateAsync(apparatus);
-            //implement dto?
+
+            var response = new ApparatusDto
+            {
+                UnitNum = apparatus.UnitNum,
+                Make = apparatus.Make,
+                Model = apparatus.Model,
+                Year = apparatus.Year,
+                Mileage = apparatus.Mileage,
+                MileageDate = apparatus.MileageDate,
+                ApparatusTypeID = apparatus.ApparatusTypeId,
+                FuelTypeID = apparatus.FuelTypeId,
+                DriveTypeID = apparatus.DriveTypeId,
+                DateAdded = apparatus.DateAdded,
+                DateUpdated = apparatus.DateUpdated
+            };
+
             return Ok(apparatus);
         }
 
@@ -109,6 +125,54 @@ namespace FDManagement.Controllers
                     Description = drive.Description
                 });
             }
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("adddrivetype")]
+        public async Task<IActionResult> CreateDriveType(Vehicle_DriveType drive)
+        {
+            await apparatusRepository.CreateDriveTypeAsync(drive);
+
+            var response = new DriveTypeDto
+            {
+                ID = drive.Id,
+                Name = drive.Name,
+                Description = drive.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("addtype")]
+        public async Task<IActionResult> CreateApparatusType(Vehicle_ApparatusType type)
+        {
+            await apparatusRepository.CreateApparatusTypeAsync(type);
+
+            var response = new ApparatusTypeDto
+            {
+                ID = type.Id,
+                Name = type.Name,
+                Description = type.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("addfueltype")]
+        public async Task<IActionResult> CreateFuelType(Vehicle_FuelType fuelType)
+        {
+            await apparatusRepository.CreateFuelTypeAsync(fuelType);
+
+            var response = new FuelTypeDto
+            {
+                ID = fuelType.Id,
+                Name = fuelType.Name,
+                Description = fuelType.Description
+            };
 
             return Ok(response);
         }
