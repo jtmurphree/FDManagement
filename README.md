@@ -10,7 +10,7 @@ is not all inclusive and will be updated as further needed work is identified.</
 
 # To Do
 <ul>
-	<li>Fully implementr use of DTOs</li>
+	<li>Fully implement use of DTOs</li>
 	<li>Implement authenticatoin and security</li>
 	<li>Implement hashing of passwords before storing in DB</li>
 </ul>
