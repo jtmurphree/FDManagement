@@ -5,7 +5,7 @@ same repository for ease of cloning and running the system. The database for the
 easier to create the database in your local environment or event to create it in  something other than SQL Server.</p>
 
 # Current State
-<p>FireDeptManagement is still in the early stages of management. This API, while functional, in no way ressembles the final state of the application. The below list states future work that is planned on this application. This list
+<p>FireDeptManagement is still in the early stages of development. This API, while functional, in no way ressembles the final state of the application. The below list states future work that is planned on this application. This list
 is not all inclusive and will be updated as further needed work is identified.</p>
 
 # To Do
