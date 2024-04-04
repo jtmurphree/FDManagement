@@ -16,8 +16,24 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(Global_User user)
+        public async Task<IActionResult> CreateUser(UserRequestDto userDto)
         {
+            var user = new Global_User()
+            {
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                PhoneNumber = userDto.PhoneNumber,
+                DisplayName = userDto.DisplayName,
+                UserName = userDto.UserName,
+                EmployeeId = userDto.EmployeeId,
+                PasswordHash = userDto.PasswordHash,
+                UserRoleId = userDto.UserRoleId,
+                AccessFailedCount = 0,
+                DateAdded = userDto.DateAdded,
+                TempPw = false
+            };
+
             await userRepository.CreateAsync(user);
 
             var response = new UserDto
@@ -25,15 +41,17 @@ namespace FDManagement.Controllers
                 ID = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 DisplayName = user.DisplayName,
                 EmployeeId = user.EmployeeId,
                 PasswordHash = user.PasswordHash,
-                AccessFailedCount = 0,
+                AccessFailedCount = user.AccessFailedCount,
+                UserRoleId = user.UserRoleId,
                 DateAdded = DateTime.Now,
                 DateUpdated = null,
-                TempPw = false
+                TempPw = user.TempPw
             };
 
             return Ok(response);

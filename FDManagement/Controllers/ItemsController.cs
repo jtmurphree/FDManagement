@@ -17,8 +17,17 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateItem(Inventory_Item item)
+        public async Task<IActionResult> CreateItem(ItemRequestDto itemDto)
         {
+            var item = new Inventory_Item
+            {
+                Name = itemDto.Name,
+                Description = itemDto.Description,
+                SerialNumber = itemDto.SerialNumber,
+                Value = itemDto.Value,
+                CategoryId = itemDto.CategoryID
+            };
+
             await itemRepository.CreateAsync(item);
 
             var response = new ItemDto
@@ -36,11 +45,18 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("addcategory")]
-        public async Task<IActionResult> CreateCategory(Inventory_Category category)
+        public async Task<IActionResult> CreateCategory(CategoryRequestDto categoryDto)
         {
+            var category = new Inventory_Category
+            {
+                Name = categoryDto.Name,
+                Description = categoryDto.Description
+
+            };
+
             await itemRepository.CreatCategoryAsync(category);
 
-            var response = new CategoriesDto
+            var response = new CategoryDto
             {
                 ID = category.Id,
                 Name = category.Name,
@@ -78,11 +94,11 @@ namespace FDManagement.Controllers
         public async Task<IActionResult> GetAllCategories() 
         {
             var categories = await itemRepository.GetCategoriesAsync();
-            var response = new List<CategoriesDto>();
+            var response = new List<CategoryDto>();
 
             foreach (var category in categories) 
             {
-                response.Add(new CategoriesDto
+                response.Add(new CategoryDto
                 {
                     ID = category.Id,
                     Name = category.Name,
