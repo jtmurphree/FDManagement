@@ -16,13 +16,30 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateApparatus(Vehicle_Apparatus apparatus)
+        public async Task<IActionResult> CreateApparatus(ApparatusRequestDto apparatusDto)
         {
+            var apparatus = new Vehicle_Apparatus
+            {
+                UnitNum = apparatusDto.UnitNum,
+                Make = apparatusDto.Make,
+                Model = apparatusDto.Model,
+                Year = apparatusDto.Year,
+                Mileage = apparatusDto.Mileage,
+                MileageDate = apparatusDto.MileageDate,
+                ApparatusTypeId = apparatusDto.ApparatusTypeID,
+                FuelTypeId = apparatusDto.FuelTypeID,
+                DriveTypeId = apparatusDto.DriveTypeID,
+                DateAdded = DateTime.Now,
+                DateUpdated = null
+            };
+
             apparatus.DateAdded = DateTime.Now;
+
             await apparatusRepository.CreateAsync(apparatus);
 
             var response = new ApparatusDto
             {
+                ID = apparatus.Id,
                 UnitNum = apparatus.UnitNum,
                 Make = apparatus.Make,
                 Model = apparatus.Model,
@@ -131,8 +148,15 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("adddrivetype")]
-        public async Task<IActionResult> CreateDriveType(Vehicle_DriveType drive)
+        public async Task<IActionResult> CreateDriveType(CategoryRequestDto driveDto)
         {
+
+            var drive = new Vehicle_DriveType
+            {
+                Name = driveDto.Name,
+                Description = driveDto.Description
+            };
+
             await apparatusRepository.CreateDriveTypeAsync(drive);
 
             var response = new DriveTypeDto
@@ -147,8 +171,14 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("addtype")]
-        public async Task<IActionResult> CreateApparatusType(Vehicle_ApparatusType type)
+        public async Task<IActionResult> CreateApparatusType(CategoryRequestDto typeDto)
         {
+            var type = new Vehicle_ApparatusType
+            {
+                Name = typeDto.Name,
+                Description = typeDto.Description
+            };
+
             await apparatusRepository.CreateApparatusTypeAsync(type);
 
             var response = new ApparatusTypeDto
@@ -163,8 +193,14 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("addfueltype")]
-        public async Task<IActionResult> CreateFuelType(Vehicle_FuelType fuelType)
+        public async Task<IActionResult> CreateFuelType(CategoryRequestDto fuelTypeDto)
         {
+            var fuelType = new Vehicle_FuelType
+            {
+                Name = fuelTypeDto.Name,
+                Description = fuelTypeDto.Description
+            };
+
             await apparatusRepository.CreateFuelTypeAsync(fuelType);
 
             var response = new FuelTypeDto
