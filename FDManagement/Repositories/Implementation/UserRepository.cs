@@ -39,9 +39,9 @@ namespace FDManagement.Repositories.Implementation
             return await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRole.Global_UserRole).ToListAsync();
         }
 
-        public async Task<Global_User> GetById(int id)
+        public async Task<Global_User?> GetUserById(int id)
         {
-            var user = await dbContext.Global_Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var user = await dbContext.Global_Users.FirstOrDefaultAsync(x => x.Id == id);
             
             if(user == null)
             {

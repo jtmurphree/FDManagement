@@ -87,11 +87,31 @@ namespace FDManagement.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetUserByID(int id)
+        public async Task<IActionResult> GetUserByID([FromRoute] int id)
         {
-            var user = await userRepository.GetById(id);
+            var user = await userRepository.GetUserById(id);
 
-            return Ok(user);
+            if(user is null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                DisplayName = user.DisplayName,
+                EmployeeId = user.EmployeeId,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                UserRoleName = user.UserName,
+                AccessFailedCount = user.AccessFailedCount,
+                TempPw = user.TempPw
+            };
+
+            return Ok(response);
         }
 
         [HttpGet]
