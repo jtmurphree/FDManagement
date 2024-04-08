@@ -106,7 +106,7 @@ namespace FDManagement.Controllers
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 PasswordHash = user.PasswordHash,
-                UserRoleName = user.UserName,
+                UserRoleName = user.Global_RegisteredUserRole != null ? user.Global_RegisteredUserRole.Global_UserRole.Name : "",
                 AccessFailedCount = user.AccessFailedCount,
                 TempPw = user.TempPw
             };

@@ -41,7 +41,7 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<Global_User?> GetUserById(int id)
         {
-            var user = await dbContext.Global_Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRoles).Include(v => v.Global_RegisteredUserRole.Global_UserRole).FirstOrDefaultAsync(x => x.Id == id);
             
             if(user == null)
             {
