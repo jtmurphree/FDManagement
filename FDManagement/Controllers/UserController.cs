@@ -189,9 +189,9 @@ namespace FDManagement.Controllers
                 EmployeeId = request.EmployeeId,
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
-                //PasswordHash = request.PasswordHash,
+                PasswordHash = request.PasswordHash,
                 UserRoleId = request.UserRoleId,
-                //AccessFailedCount = request.AccessFailedCount, //I don't think we need this
+                AccessFailedCount = request.AccessFailedCount,
                 DateAdded = request.DateAdded,
                 DateUpdated = request.DateUpdated,
             };
