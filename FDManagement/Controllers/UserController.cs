@@ -16,7 +16,7 @@ namespace FDManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserRequestDto userDto)
+        public async Task<IActionResult> CreateUser(AddUserRequestDto userDto)
         {
             var user = new Global_User()
             {
@@ -87,11 +87,35 @@ namespace FDManagement.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetUserByID(int id)
+        public async Task<IActionResult> GetUserByID([FromRoute] int id)
         {
-            var user = await userRepository.GetById(id);
+            var user = await userRepository.GetUserById(id);
 
-            return Ok(user);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserDto
+            {
+                ID = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                DisplayName = user.DisplayName,
+                EmployeeId = user.EmployeeId,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                UserRoleName = user.Global_RegisteredUserRole != null ? user.Global_RegisteredUserRole.Global_UserRole.Name : "",
+                UserRoleId = user.UserRoleId,
+                AccessFailedCount = user.AccessFailedCount,
+                DateAdded = user.DateAdded,
+                DateUpdated = user.DateUpdated,
+                TempPw = user.TempPw
+            };
+
+            return Ok(response);
         }
 
         [HttpGet]
@@ -101,7 +125,7 @@ namespace FDManagement.Controllers
             var roles = await userRepository.GetRolesAsync();
             var response = new List<UserRoleDto>();
 
-            foreach(var role in roles)
+            foreach (var role in roles)
             {
                 response.Add(new UserRoleDto
                 {
@@ -121,7 +145,7 @@ namespace FDManagement.Controllers
             var roles = await userRepository.GetRegisteredRolesAsync();
             var response = new List<RegisteredUserRoleDto>();
 
-            foreach(var role in roles)
+            foreach (var role in roles)
             {
                 response.Add(new RegisteredUserRoleDto
                 {
@@ -148,6 +172,59 @@ namespace FDManagement.Controllers
         {
             await userRepository.CreateRegisteredRoleAsync(role);
             return Ok(role);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> EditUser([FromRoute] int id, UpdateUserRequestDto request)
+        {
+            //convert to domain model
+            var user = new Global_User
+            {
+                Id = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                DisplayName = request.DisplayName,
+                EmployeeId = request.EmployeeId,
+                PhoneNumber = request.PhoneNumber,
+                Email = request.Email,
+                PasswordHash = request.PasswordHash,
+                UserRoleId = request.UserRoleId,
+                AccessFailedCount = request.AccessFailedCount,
+                DateAdded = request.DateAdded,
+                DateUpdated = request.DateUpdated,
+            };
+
+            user = await userRepository.UpdateUserAsync(user);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            //Convertt to dto
+            var response = new UserDto
+            {
+                ID = user.Id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                EmployeeId = request.EmployeeId,
+                DisplayName = request.DisplayName,
+                PhoneNumber = request.PhoneNumber,
+                Email = request.Email,
+                UserRoleId = request.UserRoleId,
+                DateUpdated = request.DateUpdated,
+                DateAdded = request.DateAdded,
+                UserRoleName = request.UserRoleName,
+                AccessFailedCount = request.AccessFailedCount,
+                PasswordHash = request.PasswordHash,
+                TempPw = request.tempPw
+            };
+
+            return Ok(response);
+        
         }
     }
 }

@@ -39,9 +39,9 @@ namespace FDManagement.Repositories.Implementation
             return await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRole.Global_UserRole).ToListAsync();
         }
 
-        public async Task<Global_User> GetById(int id)
+        public async Task<Global_User?> GetUserById(int id)
         {
-            var user = await dbContext.Global_Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var user = await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRoles).Include(v => v.Global_RegisteredUserRole.Global_UserRole).FirstOrDefaultAsync(x => x.Id == id);
             
             if(user == null)
             {
@@ -59,6 +59,20 @@ namespace FDManagement.Repositories.Implementation
         public async Task<IEnumerable<Global_UserRole>> GetRolesAsync()
         {
             return await dbContext.Global_UserRoles.ToListAsync();
+        }
+
+        public async Task<Global_User?> UpdateUserAsync(Global_User user)
+        {
+            var existingUser = await dbContext.Global_Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+
+            if (existingUser != null)
+            {
+                dbContext.Entry(existingUser).CurrentValues.SetValues(user);
+                await dbContext.SaveChangesAsync();
+                return user;
+            }
+
+            return null;
         }
     }
 }

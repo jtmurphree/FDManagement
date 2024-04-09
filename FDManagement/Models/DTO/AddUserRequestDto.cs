@@ -2,7 +2,7 @@
 
 namespace FDManagement.Models.DTO
 {
-    public class UserRequestDto
+    public class AddUserRequestDto
     {
         public int ID { get; set; }
         public string FirstName { get; set; }
