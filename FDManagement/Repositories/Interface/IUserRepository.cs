@@ -10,5 +10,6 @@ namespace FDManagement.Repositories.Interface
         Task<IEnumerable<Global_RegisteredUserRole>> GetRegisteredRolesAsync();
         Task<Global_UserRole> CreateRoleAsync(Global_UserRole userRole);
         Task<Global_RegisteredUserRole> CreateRegisteredRoleAsync(Global_RegisteredUserRole userRole);
+        Task<Global_User?> UpdateUserAsync(Global_User user);
     }
 }

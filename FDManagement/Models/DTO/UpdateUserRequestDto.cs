@@ -1,8 +1,7 @@
 ﻿namespace FDManagement.Models.DTO
 {
-    public class UserDto
+    public class UpdateUserRequestDto
     {
-        public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
@@ -14,8 +13,8 @@
         public int? UserRoleId { get; set; }
         public string UserRoleName { get; set; }
         public int? AccessFailedCount { get; set; }
+        public bool tempPw {  get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime? DateUpdated { get; set; }
-        public bool TempPw { get; set; }
     }
 }

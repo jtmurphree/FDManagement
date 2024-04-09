@@ -60,5 +60,19 @@ namespace FDManagement.Repositories.Implementation
         {
             return await dbContext.Global_UserRoles.ToListAsync();
         }
+
+        public async Task<Global_User?> UpdateUserAsync(Global_User user)
+        {
+            var existingUser = await dbContext.Global_Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+
+            if (existingUser != null)
+            {
+                dbContext.Entry(existingUser).CurrentValues.SetValues(user);
+                await dbContext.SaveChangesAsync();
+                return user;
+            }
+
+            return null;
+        }
     }
 }
