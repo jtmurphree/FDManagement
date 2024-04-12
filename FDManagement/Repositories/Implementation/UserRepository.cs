@@ -74,5 +74,19 @@ namespace FDManagement.Repositories.Implementation
 
             return null;
         }
+
+        public async Task<Global_User?> DeleteUserAsync(int id)
+        {
+            var existingUser = await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRoles).Include(u => u.Global_RegisteredUserRole.Global_UserRole).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingUser is null) 
+            {
+                return null;
+            }
+            
+            dbContext.Global_Users.Remove(existingUser);
+            await dbContext.SaveChangesAsync();
+            return existingUser;
+        }
     }
 }
