@@ -59,5 +59,54 @@ namespace FDManagement.Repositories.Implementation
         {
             return await dbContext.Vehicle_ApparatusTypes.ToListAsync();
         }
+
+        public async Task<Vehicle_Apparatus?> UpdateAsync(Vehicle_Apparatus apparatus)
+        {
+            var existingApparatus = dbContext.Vehicle_Apparatus.Where(x => x.Id == apparatus.Id).FirstOrDefaultAsync();
+
+            if(existingApparatus != null)
+            {
+                dbContext.Entry(existingApparatus).CurrentValues.SetValues(apparatus);
+                await dbContext.SaveChangesAsync();
+                return apparatus;
+            }
+
+            return null;
+        }
+
+        public Task<Vehicle_Apparatus?> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_FuelType?> UpdateFuelTypeAsync(Vehicle_FuelType fuelType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_FuelType?> DeleteFuelTypeAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_ApparatusType?> UpdateApparatusTypeAsync(Vehicle_ApparatusType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_ApparatusType?> DeleteApparatusTypeAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_DriveType?> UpdateDriveTypeAsync(Vehicle_DriveType driveType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vehicle_DriveType?> DeleteDriveTypeAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

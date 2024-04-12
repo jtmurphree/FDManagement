@@ -268,7 +268,7 @@ namespace FDManagement.Controllers
         {
             var role = new Global_UserRole
             {
-                Id = roleDto.ID,
+                Id = id,
                 Name = roleDto.Name,
                 Description = roleDto.Description,
             };
