@@ -10,6 +10,7 @@ is not all inclusive and will be updated as further needed work is identified.</
 
 # To Do
 <ul>
+	<li>Implement all crud operation methods on repositories</li>
 	<li>Implement authenticatoin and security</li>
 	<li>Implement hashing of passwords before storing in DB</li>
 </ul>

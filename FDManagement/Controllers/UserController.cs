@@ -226,5 +226,38 @@ namespace FDManagement.Controllers
             return Ok(response);
         
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        {
+            var user = await userRepository.DeleteUserAsync(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserDto
+            {
+                ID = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                DisplayName = user.DisplayName,
+                EmployeeId = user.EmployeeId,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                UserRoleId = user.UserRoleId,
+                UserRoleName = user.Global_RegisteredUserRole.Global_UserRole.Name,
+                AccessFailedCount = user.AccessFailedCount,
+                DateAdded = user.DateAdded,
+                DateUpdated = user.DateUpdated,
+                TempPw = user.TempPw
+            };
+
+            return Ok(response);
+        }
     }
 }
