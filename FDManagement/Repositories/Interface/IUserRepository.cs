@@ -12,5 +12,7 @@ namespace FDManagement.Repositories.Interface
         Task<Global_RegisteredUserRole> CreateRegisteredRoleAsync(Global_RegisteredUserRole userRole);
         Task<Global_User?> UpdateUserAsync(Global_User user);
         Task<Global_User?> DeleteUserAsync(int id);
+        Task<Global_UserRole?> UpdateRoleAsync(Global_UserRole role);
+        Task<Global_UserRole?> DeleteRoleAsync(int id);
     }
 }
