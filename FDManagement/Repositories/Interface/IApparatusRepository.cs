@@ -15,8 +15,11 @@
         Task<Vehicle_DriveType?> UpdateDriveTypeAsync(Vehicle_DriveType driveType);
         Task<Vehicle_DriveType?> DeleteDriveTypeAsync(int id);
         Task<IEnumerable<Vehicle_Apparatus>> GetAllAsync();
+        Task<Vehicle_Apparatus?> GetByIdAsync(int id);
         Task<IEnumerable<Vehicle_ApparatusType>> GetTypesAsync();
+        Task<Vehicle_ApparatusType?> GetTypeByIdAsync(int id);
         Task<IEnumerable<Vehicle_FuelType>> GetFuelTypesAsync();
+        Task<Vehicle_FuelType?> GetFuelTypeByIdAsync(int id);
         Task<IEnumerable<Vehicle_DriveType>> GetDriveTypesAsync();
     }
 }

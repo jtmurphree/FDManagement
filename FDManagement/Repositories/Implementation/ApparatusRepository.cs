@@ -1,5 +1,6 @@
 ﻿using FDManagement.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace FDManagement.Repositories.Implementation
 {
@@ -74,39 +75,139 @@ namespace FDManagement.Repositories.Implementation
             return null;
         }
 
-        public Task<Vehicle_Apparatus?> DeleteAsync(int id)
+        public async Task<Vehicle_Apparatus?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingApp = await dbContext.Vehicle_Apparatus.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingApp is null)
+            {
+                return null;
+            }
+
+            dbContext.Vehicle_Apparatus.Remove(existingApp);
+            await dbContext.SaveChangesAsync();
+            return existingApp;
         }
 
-        public Task<Vehicle_FuelType?> UpdateFuelTypeAsync(Vehicle_FuelType fuelType)
+        public async Task<Vehicle_FuelType?> UpdateFuelTypeAsync(Vehicle_FuelType fuelType)
         {
-            throw new NotImplementedException();
+            var existingFuelType = await dbContext.Vehicle_FuelTypes.FirstOrDefaultAsync(x => x.Id == fuelType.Id);
+
+            if (existingFuelType == null)
+            {
+                return null;
+            }
+
+            dbContext.Entry(existingFuelType).CurrentValues.SetValues(fuelType);
+            await dbContext.SaveChangesAsync();
+            return fuelType;
         }
 
-        public Task<Vehicle_FuelType?> DeleteFuelTypeAsync(int id)
+        public async Task<Vehicle_FuelType?> DeleteFuelTypeAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingFuelType = await dbContext.Vehicle_FuelTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingFuelType == null)
+            {
+                return null;
+            }
+
+            dbContext.Vehicle_FuelTypes.Remove(existingFuelType);
+            await dbContext.SaveChangesAsync();
+            return existingFuelType;
         }
 
-        public Task<Vehicle_ApparatusType?> UpdateApparatusTypeAsync(Vehicle_ApparatusType type)
+        public async Task<Vehicle_ApparatusType?> UpdateApparatusTypeAsync(Vehicle_ApparatusType type)
         {
-            throw new NotImplementedException();
+            var existingType = await dbContext.Vehicle_ApparatusTypes.FirstOrDefaultAsync(x => x.Id == type.Id);
+
+            if (existingType == null)
+            {
+                return null;
+            }
+
+            dbContext.Entry(existingType).CurrentValues.SetValues(type);
+            await dbContext.SaveChangesAsync();
+            return existingType;
+            
         }
 
-        public Task<Vehicle_ApparatusType?> DeleteApparatusTypeAsync(int id)
+        public async Task<Vehicle_ApparatusType?> DeleteApparatusTypeAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingType = await dbContext.Vehicle_ApparatusTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingType == null)
+            {
+                return null;
+            }
+
+            dbContext.Vehicle_ApparatusTypes.Remove(existingType);
+            await dbContext.SaveChangesAsync();
+            return existingType;
         }
 
-        public Task<Vehicle_DriveType?> UpdateDriveTypeAsync(Vehicle_DriveType driveType)
+        public async Task<Vehicle_DriveType?> UpdateDriveTypeAsync(Vehicle_DriveType driveType)
         {
-            throw new NotImplementedException();
+            var existingDriveType = await dbContext.Vehicle_DriveTypes.FirstOrDefaultAsync(x => x.Id == driveType.Id);        
+            
+            if(existingDriveType == null)
+            {
+                return null;
+            }
+
+            dbContext.Entry(existingDriveType).CurrentValues.SetValues(driveType);
+            await dbContext.SaveChangesAsync();
+            return existingDriveType;
         }
 
-        public Task<Vehicle_DriveType?> DeleteDriveTypeAsync(int id)
+        public async Task<Vehicle_DriveType?> DeleteDriveTypeAsync(int id)
         {
-            throw new NotImplementedException();
+            var existingDriveType = await dbContext.Vehicle_DriveTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingDriveType == null)
+            {
+                return null;
+            }
+
+            dbContext.Vehicle_DriveTypes.Remove(existingDriveType);
+            await dbContext.SaveChangesAsync();
+            return existingDriveType;
+        }
+
+        public async Task<Vehicle_Apparatus?> GetByIdAsync(int id)
+        {
+            var apparatus = await dbContext.Vehicle_Apparatus.Include(d => d.Vehicle_DriveType).Include(t => t.Vehicle_ApparatusType).Include(f => f.Vehicle_FuelType).FirstOrDefaultAsync(x => x.Id == id);
+
+            if(apparatus == null)
+            {
+                return null;
+            }
+
+            return apparatus;
+        }
+
+        public async Task<Vehicle_ApparatusType?> GetTypeByIdAsync(int id)
+        {
+            var type = await dbContext.Vehicle_ApparatusTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(type == null)
+            {
+                return null;
+            }
+
+            return type;
+        }
+
+        public async Task<Vehicle_FuelType?> GetFuelTypeByIdAsync(int id)
+        {
+            var fuelType = await dbContext.Vehicle_FuelTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(fuelType == null)
+            {
+                return null;
+            }
+
+            return fuelType;
         }
     }
 }

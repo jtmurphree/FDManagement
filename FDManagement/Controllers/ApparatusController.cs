@@ -86,6 +86,121 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetApparatusById([FromRoute] int id)
+        {
+            var apparatus = await apparatusRepository.GetByIdAsync(id);
+
+            if(apparatus == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusDto
+            {
+                ID = apparatus.Id,
+                UnitNum = apparatus.UnitNum,
+                Make = apparatus.Make,
+                Model = apparatus.Model,
+                Year = apparatus.Year,
+                Mileage = apparatus.Mileage,
+                MileageDate = apparatus.MileageDate,
+                ApparatusTypeID = apparatus.ApparatusTypeId,
+                ApparatusType = apparatus.Vehicle_ApparatusType.Name,
+                FuelTypeID = apparatus.FuelTypeId,
+                FuelType = apparatus.Vehicle_FuelType.Name,
+                DriveTypeID = apparatus.DriveTypeId,
+                DriveType = apparatus.Vehicle_DriveType.Name,
+                DateAdded = apparatus.DateAdded,
+                DateUpdated = apparatus.DateUpdated
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateApparatus([FromRoute] int id, ApparatusDto apparatusDto)
+        {
+            var apparatus = new Vehicle_Apparatus
+            {
+                Id = id,
+                UnitNum = apparatusDto.UnitNum,
+                Model = apparatusDto.Model,
+                Make = apparatusDto.Make,
+                Year = apparatusDto.Year,
+                Mileage = apparatusDto.Mileage,
+                MileageDate = apparatusDto.MileageDate,
+                ApparatusTypeId = apparatusDto.ApparatusTypeID,
+                FuelTypeId = apparatusDto.FuelTypeID,
+                DriveTypeId = apparatusDto.DriveTypeID,
+                DateAdded = apparatusDto.DateAdded,
+                DateUpdated = apparatusDto.DateUpdated
+            };
+
+            apparatus = await apparatusRepository.UpdateAsync(apparatus);
+
+            if(apparatus == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusDto
+            {
+                ID = apparatus.Id,
+                UnitNum = apparatus.UnitNum,
+                Make = apparatus.Make,
+                Model = apparatus.Model,
+                Year = apparatus.Year,
+                Mileage = apparatus.Mileage,
+                MileageDate = apparatus.MileageDate,
+                ApparatusTypeID = apparatus.ApparatusTypeId,
+                ApparatusType = apparatus.Vehicle_ApparatusType.Name,
+                FuelTypeID = apparatus.FuelTypeId,
+                FuelType = apparatus.Vehicle_FuelType.Name,
+                DriveTypeID = apparatus.DriveTypeId,
+                DriveType = apparatus.Vehicle_DriveType.Name,
+                DateAdded = apparatus.DateAdded,
+                DateUpdated = apparatus.DateUpdated
+            };
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteApparatus(int id)
+        {
+            var apparatus = await apparatusRepository.DeleteAsync(id);
+
+            if(apparatus == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusDto
+            {
+                ID = apparatus.Id,
+                UnitNum = apparatus.UnitNum,
+                Make = apparatus.Make,
+                Model = apparatus.Model,
+                Year = apparatus.Year,
+                Mileage = apparatus.Mileage,
+                MileageDate = apparatus.MileageDate,
+                ApparatusTypeID = apparatus.ApparatusTypeId,
+                ApparatusType = apparatus.Vehicle_ApparatusType.Name,
+                FuelTypeID = apparatus.FuelTypeId,
+                FuelType = apparatus.Vehicle_FuelType.Name,
+                DriveTypeID = apparatus.DriveTypeId,
+                DriveType = apparatus.Vehicle_DriveType.Name,
+                DateAdded = apparatus.DateAdded,
+                DateUpdated = apparatus.DateUpdated
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("types")]
         public async Task<IActionResult> GetTypes()
         {
