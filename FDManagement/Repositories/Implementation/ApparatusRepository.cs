@@ -1,4 +1,5 @@
-﻿using FDManagement.Repositories.Interface;
+﻿using FDManagement.Models.Domain;
+using FDManagement.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
@@ -63,13 +64,13 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<Vehicle_Apparatus?> UpdateAsync(Vehicle_Apparatus apparatus)
         {
-            var existingApparatus = dbContext.Vehicle_Apparatus.Where(x => x.Id == apparatus.Id).FirstOrDefaultAsync();
+            var existingApparatus = await dbContext.Vehicle_Apparatus.Include(a => a.Vehicle_FuelType).Include(a => a.Vehicle_DriveType).Include(a => a.Vehicle_ApparatusType).FirstOrDefaultAsync(x => x.Id == apparatus.Id);
 
             if(existingApparatus != null)
             {
                 dbContext.Entry(existingApparatus).CurrentValues.SetValues(apparatus);
                 await dbContext.SaveChangesAsync();
-                return apparatus;
+                return existingApparatus;
             }
 
             return null;
@@ -77,16 +78,16 @@ namespace FDManagement.Repositories.Implementation
 
         public async Task<Vehicle_Apparatus?> DeleteAsync(int id)
         {
-            var existingApp = await dbContext.Vehicle_Apparatus.FirstOrDefaultAsync(x => x.Id == id);
+            var existingApparatus = await dbContext.Vehicle_Apparatus.Include(a => a.Vehicle_FuelType).Include(a => a.Vehicle_DriveType).Include(a => a.Vehicle_ApparatusType).FirstOrDefaultAsync(x => x.Id == id);
 
-            if (existingApp is null)
+            if (existingApparatus is null)
             {
                 return null;
             }
 
-            dbContext.Vehicle_Apparatus.Remove(existingApp);
+            dbContext.Vehicle_Apparatus.Remove(existingApparatus);
             await dbContext.SaveChangesAsync();
-            return existingApp;
+            return existingApparatus;
         }
 
         public async Task<Vehicle_FuelType?> UpdateFuelTypeAsync(Vehicle_FuelType fuelType)
@@ -208,6 +209,18 @@ namespace FDManagement.Repositories.Implementation
             }
 
             return fuelType;
+        }
+
+        public Task<Vehicle_DriveType?> GetDriveTypeByIdAsync(int id)
+        {
+            var driveType = dbContext.Vehicle_DriveTypes.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(driveType == null)
+            {
+                return null;
+            }
+
+            return driveType;
         }
     }
 }

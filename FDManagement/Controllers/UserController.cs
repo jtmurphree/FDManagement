@@ -91,7 +91,7 @@ namespace FDManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetUserByID([FromRoute] int id)
         {
-            var user = await userRepository.GetUserById(id);
+            var user = await userRepository.GetUserByIdAsync(id);
 
             if (user is null)
             {

@@ -21,5 +21,6 @@
         Task<IEnumerable<Vehicle_FuelType>> GetFuelTypesAsync();
         Task<Vehicle_FuelType?> GetFuelTypeByIdAsync(int id);
         Task<IEnumerable<Vehicle_DriveType>> GetDriveTypesAsync();
+        Task<Vehicle_DriveType?> GetDriveTypeByIdAsync(int id);
     }
 }

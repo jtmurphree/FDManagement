@@ -78,7 +78,9 @@ namespace FDManagement.Controllers
                     FuelTypeID = app.FuelTypeId,
                     FuelType = app.Vehicle_FuelType.Name,
                     DriveTypeID = app.DriveTypeId,
-                    DriveType = app.Vehicle_DriveType.Name
+                    DriveType = app.Vehicle_DriveType.Name,
+                    DateAdded = app.DateAdded,
+                    DateUpdated = app.DateUpdated
                 });
             }
 
@@ -240,6 +242,47 @@ namespace FDManagement.Controllers
             return Ok(response);  
         }
 
+        [HttpGet]
+        [Route("fueltypes/{id}")]
+        public async Task<IActionResult> GetFuelTypeById([FromRoute] int id)
+        {
+            var fuelType = await apparatusRepository.GetFuelTypeByIdAsync(id);
+
+            if(fuelType == null )
+            {
+                return NotFound();
+            }
+
+            var response = new FuelTypeDto
+            {
+                ID = fuelType.Id,
+                Name = fuelType.Name,
+                Description = fuelType.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("fueltypes/{id}")]
+        public async Task<IActionResult> DeleteFuelType([FromRoute] int id)
+        {
+            var fuel = await apparatusRepository.DeleteFuelTypeAsync(id);
+
+            if(fuel == null )
+            {
+                return NotFound();
+            }
+
+            var response = new FuelTypeDto
+            {
+                ID = fuel.Id,
+                Name = fuel.Name,
+                Description = fuel.Description
+            };
+
+            return Ok(response);
+        }
 
         [HttpGet]
         [Route("drivetypes")]
@@ -257,6 +300,48 @@ namespace FDManagement.Controllers
                     Description = drive.Description
                 });
             }
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("drivetypes/{id}")]
+        public async Task<IActionResult> GetDriveByid([FromRoute] int id)
+        {
+            var drive = await apparatusRepository.GetDriveTypeByIdAsync(id);
+
+            if(drive == null )
+            {
+                return NotFound();
+            }
+
+            var response = new DriveTypeDto
+            {
+                ID = drive.Id,
+                Name = drive.Name,
+                Description = drive.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("drivetypes/{id}")]
+        public async Task<IActionResult> DeleteDriveType([FromRoute] int id)
+        {
+            var drive = await apparatusRepository.DeleteDriveTypeAsync(id);
+
+            if(drive == null)
+            {
+                return NotFound();
+            }
+
+            var response = new DriveTypeDto
+            {
+                ID = drive.Id,
+                Name = drive.Name,
+                Description = drive.Description
+            };
 
             return Ok(response);
         }
