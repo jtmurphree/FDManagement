@@ -435,10 +435,11 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("addfueltype")]
-        public async Task<IActionResult> CreateFuelType(CategoryRequestDto fuelTypeDto)
+        public async Task<IActionResult> CreateFuelType([FromRoute] int id, CategoryRequestDto fuelTypeDto)
         {
             var fuelType = new Vehicle_FuelType
             {
+                Id = id,
                 Name = fuelTypeDto.Name,
                 Description = fuelTypeDto.Description
             };
@@ -457,11 +458,11 @@ namespace FDManagement.Controllers
 
         [HttpPut]
         [Route("types/{id}")]
-        public async Task<IActionResult> UpdateType(ApparatusTypeDto typeDto)
+        public async Task<IActionResult> UpdateType([FromRoute] int id, ApparatusTypeDto typeDto)
         {
             var type = new Vehicle_ApparatusType
             {
-                Id = typeDto.ID,
+                Id = id,
                 Name = typeDto.Name,
                 Description = typeDto.Description
             };
