@@ -223,6 +223,48 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
+        [Route("types/{id}")]
+        public async Task<IActionResult> GetTypeById([FromRoute] int id)
+        {
+            var type = await apparatusRepository.GetTypeByIdAsync(id);
+
+            if(type == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusTypeDto
+            {
+                ID = type.Id,
+                Name= type.Name,
+                Description = type.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("types/{id}")]
+        public async Task<IActionResult> DeleteType([FromRoute] int id)
+        {
+            var type = await apparatusRepository.DeleteApparatusTypeAsync(id);
+
+            if(type  != null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusTypeDto
+            {
+                ID = type.Id,
+                Name = type.Name,
+                Description = type.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("fueltypes")]
         public async Task<IActionResult> GetFuelTypes()
         {
@@ -408,6 +450,91 @@ namespace FDManagement.Controllers
                 ID = fuelType.Id,
                 Name = fuelType.Name,
                 Description = fuelType.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("types/{id}")]
+        public async Task<IActionResult> UpdateType(ApparatusTypeDto typeDto)
+        {
+            var type = new Vehicle_ApparatusType
+            {
+                Id = typeDto.ID,
+                Name = typeDto.Name,
+                Description = typeDto.Description
+            };
+
+            type = await apparatusRepository.UpdateApparatusTypeAsync(type);
+
+            if(type == null)
+            {
+                return NotFound();
+            }
+
+            var response = new ApparatusTypeDto
+            {
+                ID = type.Id,
+                Name = type.Name,
+                Description = type.Description
+            };
+
+            return Ok(response);
+            
+        }
+
+        [HttpPut]
+        [Route("fueltypes/{id}")]
+        public async Task<IActionResult> UpdateFuelType([FromRoute] int id, FuelTypeDto fuleTypeDto)
+        {
+            var fuelType = new Vehicle_FuelType
+            {
+                Id = id,
+                Name= fuleTypeDto.Name,
+                Description= fuleTypeDto.Description
+            };
+
+            fuelType = await apparatusRepository.UpdateFuelTypeAsync(fuelType);
+
+            if(fuelType == null)
+            {
+                return NotFound();
+            }
+
+            var response = new FuelTypeDto
+            {
+                ID = fuelType.Id,
+                Name = fuelType.Name,
+                Description = fuelType.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("drivetypes/{id}")]
+        public async Task<IActionResult> UpdateDriveType([FromRoute] int id, DriveTypeDto driveDto)
+        {
+            var driveType = new Vehicle_DriveType
+            {
+                Id = id,
+                Name = driveDto.Name,
+                Description = driveDto.Description
+            };
+
+            driveType = await apparatusRepository.UpdateDriveTypeAsync(driveType);
+
+            if(driveType == null)
+            {
+                return NotFound();
+            }
+
+            var response = new DriveTypeDto
+            {
+                ID = driveType.Id,
+                Name = driveType.Name,
+                Description = driveType.Description
             };
 
             return Ok(response);
