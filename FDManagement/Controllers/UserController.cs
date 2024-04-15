@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FDManagement.Repositories.Interface;
 using FDManagement.Models.DTO;
-using System.Reflection.Metadata;
-using Microsoft.Identity.Client;
 
 namespace FDManagement.Controllers
 {

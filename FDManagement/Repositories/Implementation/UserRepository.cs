@@ -84,7 +84,8 @@ namespace FDManagement.Repositories.Implementation
             {
                 return null;
             }
-            
+            var roles = dbContext.Global_RegisteredUserRoles.Where(x => x.UserId == id);
+            dbContext.Global_RegisteredUserRoles.RemoveRange(roles);
             dbContext.Global_Users.Remove(existingUser);
             await dbContext.SaveChangesAsync();
             return existingUser;
