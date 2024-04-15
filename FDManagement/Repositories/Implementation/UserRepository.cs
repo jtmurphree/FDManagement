@@ -70,7 +70,7 @@ namespace FDManagement.Repositories.Implementation
             {
                 dbContext.Entry(existingUser).CurrentValues.SetValues(user);
                 await dbContext.SaveChangesAsync();
-                return user;
+                return existingUser;
             }
 
             return null;
