@@ -1,5 +1,6 @@
 ﻿using FDManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace FDManagement.Repositories.Implementation
@@ -39,13 +40,13 @@ namespace FDManagement.Repositories.Implementation
             return await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRole.Global_UserRole).ToListAsync();
         }
 
-        public async Task<Global_User?> GetUserById(int id)
+        public async Task<Global_User?> GetUserByIdAsync(int id)
         {
             var user = await dbContext.Global_Users.Include(u => u.Global_RegisteredUserRoles).Include(v => v.Global_RegisteredUserRole.Global_UserRole).FirstOrDefaultAsync(x => x.Id == id);
             
             if(user == null)
             {
-                user = new Global_User();
+                return null;
             }
 
             return user;
@@ -69,7 +70,7 @@ namespace FDManagement.Repositories.Implementation
             {
                 dbContext.Entry(existingUser).CurrentValues.SetValues(user);
                 await dbContext.SaveChangesAsync();
-                return user;
+                return existingUser;
             }
 
             return null;
@@ -87,6 +88,34 @@ namespace FDManagement.Repositories.Implementation
             dbContext.Global_Users.Remove(existingUser);
             await dbContext.SaveChangesAsync();
             return existingUser;
+        }
+
+        public async Task<Global_UserRole?> UpdateRoleAsync(Global_UserRole role)
+        {
+            var existingRole = dbContext.Global_UserRoles.FirstOrDefault(x => x.Id == role.Id);
+
+            if(existingRole != null)
+            {
+                dbContext.Entry(existingRole).CurrentValues.SetValues(role);
+                await dbContext.SaveChangesAsync();
+                return role;
+            }
+
+            return null;
+        }
+
+        public async Task<Global_UserRole?> DeleteRoleAsync(int id)
+        {
+            var existingRole = dbContext.Global_UserRoles.Where(x => x.Id == id).FirstOrDefault();
+
+            if(existingRole is null)
+            {
+                return null;
+            }
+
+            dbContext.Global_UserRoles.Remove(existingRole);
+            await dbContext.SaveChangesAsync();
+            return existingRole;
         }
     }
 }

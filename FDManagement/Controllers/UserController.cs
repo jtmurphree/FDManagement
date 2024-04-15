@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FDManagement.Repositories.Interface;
 using FDManagement.Models.DTO;
+using System.Reflection.Metadata;
+using Microsoft.Identity.Client;
 
 namespace FDManagement.Controllers
 {
@@ -89,7 +91,7 @@ namespace FDManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetUserByID([FromRoute] int id)
         {
-            var user = await userRepository.GetUserById(id);
+            var user = await userRepository.GetUserByIdAsync(id);
 
             if (user is null)
             {
@@ -255,6 +257,55 @@ namespace FDManagement.Controllers
                 DateAdded = user.DateAdded,
                 DateUpdated = user.DateUpdated,
                 TempPw = user.TempPw
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("roles/{id}")]
+        public async Task<IActionResult> UpdateUserRole([FromRoute] int id, UserRoleDto roleDto)
+        {
+            var role = new Global_UserRole
+            {
+                Id = id,
+                Name = roleDto.Name,
+                Description = roleDto.Description,
+            };
+
+            role = await userRepository.UpdateRoleAsync(role);
+
+            if(role == null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserRoleDto
+            {
+                ID = role.Id,
+                Name = role.Name,
+                Description = role.Description,
+            };
+
+            return Ok(response); 
+        }
+
+        [HttpDelete]
+        [Route("roles/{id}")]
+        public async Task<IActionResult> DeleteUserRole([FromRoute] int id)
+        {
+            var role = await userRepository.DeleteRoleAsync(id);
+
+            if(role is null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserRoleDto
+            {
+                ID = role.Id,
+                Name = role.Name,
+                Description = role.Description
             };
 
             return Ok(response);
