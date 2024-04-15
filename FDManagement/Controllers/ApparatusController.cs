@@ -435,11 +435,10 @@ namespace FDManagement.Controllers
 
         [HttpPost]
         [Route("addfueltype")]
-        public async Task<IActionResult> CreateFuelType([FromRoute] int id, CategoryRequestDto fuelTypeDto)
+        public async Task<IActionResult> CreateFuelType(CategoryRequestDto fuelTypeDto)
         {
             var fuelType = new Vehicle_FuelType
             {
-                Id = id,
                 Name = fuelTypeDto.Name,
                 Description = fuelTypeDto.Description
             };
