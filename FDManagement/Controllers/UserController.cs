@@ -139,6 +139,27 @@ namespace FDManagement.Controllers
         }
 
         [HttpGet]
+        [Route("roles/{id}")]
+        public async Task<IActionResult> GetRoleById([FromRoute] int id)
+        {
+            var role = await userRepository.GetUserRoleByIdAsync(id);
+
+            if(role == null)
+            {
+                return NotFound();
+            }
+
+            var response = new UserRoleDto
+            {
+                ID = role.Id,
+                Name = role.Name,
+                Description = role.Description
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet]
         [Route("registerdRoles")]
         public async Task<IActionResult> GetRegisteredRoles()
         {

@@ -118,5 +118,17 @@ namespace FDManagement.Repositories.Implementation
             await dbContext.SaveChangesAsync();
             return existingRole;
         }
+
+        public async Task<Global_UserRole?> GetUserRoleByIdAsync(int id)
+        {
+            var existingRole = await dbContext.Global_UserRoles.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(existingRole == null)
+            {
+                return null;
+            }
+
+            return existingRole;
+        }
     }
 }
